@@ -1,14 +1,9 @@
 ;(function (document, window, undefined) {
     'use strict';
 
-    // In an Array of children, every item must have a unique 'key' property.
-    const contacts = [
-        {key: 1, name: 'Test Testerson', email: 'email@example.com', description: 'A fancy man'},
-        {key: 2, name: 'Pat Patternson', email: 'email2@example.com'},
-        {key: 3, name: 'Bob Bobberson'}
-    ];
-
-    const newContact = {name: '', email: '', description: ''};
+    /**
+     * Components
+     */
 
     const ContactItem = React.createClass({
         propTypes: {
@@ -52,15 +47,37 @@
         }
     });
 
-    const contactEls = contacts
-        .filter(contact => contact.email)
-        .map(contact => React.createElement(ContactItem, contact));
+    const ContactView = React.createClass({
+        propTypes: {
+            contacts: React.PropTypes.array.isRequired,
+            newContact: React.PropTypes.object.isRequired
+        },
 
-    const rootEl = React.createElement('div', {},
-        React.createElement('h1', {}, 'Contacts'),
-        React.createElement('ul', {}, contactEls),
-        React.createElement(ContactForm, {contact: newContact})
-    );
+        render: function () {
+            const contactEls = contacts
+                .filter(contact => contact.email)
+                .map(contact => React.createElement(ContactItem, contact));
 
-    ReactDOM.render(rootEl, document.getElementById('react-app'));
+            return React.createElement('div', {className: 'contact-view'},
+                React.createElement('h1', {className: 'contact-view-title'}, 'Contacts'),
+                React.createElement('ul', {className: 'contact-view-list'}, contactEls),
+                React.createElement(ContactForm, {contact: newContact})
+            );
+        }
+    });
+
+    /**
+     * Data
+     */
+
+    // In an Array of children, every item must have a unique 'key' property.
+    const contacts = [
+        {key: 1, name: 'Test Testerson', email: 'email@example.com', description: 'A fancy man'},
+        {key: 2, name: 'Pat Patternson', email: 'email2@example.com'},
+        {key: 3, name: 'Bob Bobberson'}
+    ];
+
+    const newContact = {name: '', email: '', description: ''};
+
+    ReactDOM.render(React.createElement(ContactView, {contacts, newContact}), document.getElementById('react-app'));
 })(document, window);
