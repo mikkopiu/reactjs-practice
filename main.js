@@ -114,7 +114,7 @@
         const contact = Object.assign({}, state.newContact, {key: state.contacts.length + 1, errors: {}});
 
         if (!contact.name) {
-            contacts.errors.name = ['Please enter your new contact\'s name'];
+            contact.errors.name = ['Please enter your new contact\'s name'];
         }
         if (!/.+@.+\..+/.test(contact.email)) {
             contact.errors.email = ['Please enter your new contact\'s email'];
