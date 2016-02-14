@@ -8,6 +8,8 @@
         {key: 3, name: 'Bob Bobberson'}
     ];
 
+    const newContact = {name: '', email: '', description: ''};
+
     const ContactItem = React.createClass({
         propTypes: {
             name: React.PropTypes.string.isRequired,
@@ -24,13 +26,40 @@
         }
     });
 
+    const ContactForm = React.createClass({
+        propTypes: {
+            contact: React.PropTypes.object.isRequired
+        },
+
+        render: function () {
+            return React.createElement('form', {},
+                React.createElement('input', {
+                    type: 'text',
+                    placeholder: 'Name (required)',
+                    value: this.props.contact.name
+                }),
+                React.createElement('input', {
+                    type: 'email',
+                    placeholder: 'Email',
+                    value: this.props.contact.email
+                }),
+                React.createElement('textarea', {
+                    placeholder: 'Description',
+                    value: this.props.contact.description
+                }),
+                React.createElement('button', {type: 'submit'}, 'Add Contact')
+            );
+        }
+    });
+
     const contactEls = contacts
         .filter(contact => contact.email)
         .map(contact => React.createElement(ContactItem, contact));
 
     const rootEl = React.createElement('div', {},
         React.createElement('h1', {}, 'Contacts'),
-        React.createElement('ul', {}, contactEls)
+        React.createElement('ul', {}, contactEls),
+        React.createElement(ContactForm, {contact: newContact})
     );
 
     ReactDOM.render(rootEl, document.getElementById('react-app'));
